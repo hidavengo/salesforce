@@ -1,0 +1,1558 @@
+<!doctype html>
+<html lang="en"
+      data-theme="day"
+      data-typography="default"
+      data-spacing="default"
+      data-radii="default">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Salesforce — Grow faster with the world's #1 AI CRM</title>
+  <link rel="stylesheet"
+        href="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/tokens.css" />
+  <link rel="stylesheet"
+        href="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/icons.css" />
+  <style>
+    /* ── Brand fonts ──────────────────────────────────────────── */
+    @font-face {
+      font-family: "Avant Garde For Salesforce";
+      src: url("https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/fonts/AvantGardeForSalesforceW05-Dm.woff2") format("woff2");
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Salesforce Sans";
+      src: url("https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/fonts/SalesforceSans-Regular.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Salesforce Sans";
+      src: url("https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/fonts/SalesforceSans-Bold.woff2") format("woff2");
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+
+    /* ── Universal reset ──────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--color-surface-1);
+      font-family: var(--font-family-body, "Salesforce Sans", Arial, sans-serif);
+      -webkit-font-smoothing: antialiased;
+    }
+    main { display: flex; flex-direction: column; width: 100%; }
+
+    /* ═══════════════════════════════════════════════════════════
+       CTA SYSTEM — canonical classes shared across all blades
+    ═══════════════════════════════════════════════════════════ */
+    .sf-cta {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      text-decoration: none;
+      border-radius: var(--radius-button, 9999px);
+      font-family: var(--font-family-body, "Salesforce Sans", Arial, sans-serif);
+      font-weight: var(--font-weight-bold, 700);
+      cursor: pointer;
+      outline: none;
+      will-change: transform;
+      transform: translateZ(0);
+      transition: background-color 150ms ease-out,
+                  transform        150ms ease-out,
+                  color            150ms ease-out,
+                  border-color     150ms ease-out;
+    }
+    .sf-cta:not([aria-disabled="true"]):not(.is-disabled):hover  { transform: translateY(-2px) scale(1.02); }
+    .sf-cta:not([aria-disabled="true"]):not(.is-disabled):active { transform: translateY(0)    scale(0.98); }
+    .sf-cta:focus-visible {
+      outline: 3px solid var(--color-border-focus, #066AFE);
+      outline-offset: 2px;
+    }
+
+    /* Sizes */
+    .sf-cta--hero {
+      padding-inline: var(--space-interactive-xl, 32px);
+      padding-block:  var(--space-interactive-sm, 12px);
+      gap:            var(--space-interactive-xs, 8px);
+      font-size:      var(--font-size-16, 16px);
+      line-height:    var(--font-line-height-24, 24px);
+      letter-spacing: var(--font-letter-spacing-2, 0.002em);
+    }
+    .sf-cta--medium {
+      padding-inline: var(--space-interactive-lg, 24px);
+      padding-block:  var(--space-interactive-xs, 8px);
+      gap:            var(--space-interactive-xs, 8px);
+      font-size:      var(--font-size-16, 16px);
+      line-height:    var(--font-line-height-24, 24px);
+      letter-spacing: var(--font-letter-spacing-2, 0.002em);
+    }
+    .sf-cta--small {
+      padding-inline: var(--space-interactive-sm, 12px);
+      padding-block:  var(--space-interactive-2xs, 4px);
+      gap:            var(--space-interactive-2xs, 4px);
+      font-size:      var(--font-size-14, 14px);
+      line-height:    var(--font-line-height-20, 21px);
+    }
+
+    /* Primary */
+    .sf-cta--primary {
+      background: var(--color-fill-accent, #066AFE);
+      color: var(--color-on-fill-accent, #FFFFFF);
+      border: none;
+    }
+    .sf-cta--primary:hover         { background: var(--color-fill-accent-hover, #022AC0); }
+    .sf-cta--primary:active        { background: var(--color-fill-accent-active, #002775); }
+    .sf-cta--primary:focus-visible { background: var(--color-fill-accent-hover, #022AC0); }
+
+    /* Secondary */
+    .sf-cta--secondary {
+      background: transparent;
+      color: var(--color-on-fill-neutral-accent, #022AC0);
+      border: none;
+      box-shadow: inset 0 0 0 2px var(--color-border-accent, #022AC0);
+    }
+    .sf-cta--secondary:hover         { background: var(--color-fill-neutral-hover, #EAF5FE); color: #002775; box-shadow: inset 0 0 0 2px var(--color-border-accent-hover, #002775); }
+    .sf-cta--secondary:active        { background: var(--color-fill-neutral-active, #EAF5FE); color: #002775; box-shadow: inset 0 0 0 2px var(--color-border-accent-active, #002775); }
+    .sf-cta--secondary:focus-visible { background: var(--color-fill-neutral-hover, #EAF5FE); color: #002775; box-shadow: inset 0 0 0 2px var(--color-border-accent-hover, #002775); }
+
+    /* Special (green — nav "Try for free" only) */
+    .sf-cta--special {
+      background: var(--color-green-50, #2E844A);
+      color: #FFFFFF;
+      border: none;
+    }
+    .sf-cta--special:hover         { background: var(--color-green-20, #143B25); }
+    .sf-cta--special:active        { background: var(--color-green-20, #143B25); }
+    .sf-cta--special:focus-visible { background: var(--color-green-20, #143B25); }
+
+    /* ═══════════════════════════════════════════════════════════
+       GLOBAL HEADER
+    ═══════════════════════════════════════════════════════════ */
+    .sf-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--color-surface-1, #FFFFFF);
+      border-bottom: 1px solid var(--color-border-1, #F3F3F3);
+    }
+    .sf-nav__inner {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      height: 72px;
+      padding-inline: 40px;
+    }
+    .sf-nav__logo-full { display: block; }
+    .sf-nav__logo-bug  { display: none; }
+    .sf-nav__hamburger { display: none; }
+
+    .sf-nav__links {
+      display: flex;
+      align-items: center;
+    }
+    .sf-nav__links a {
+      font-family: var(--font-style-body-copy-2-bold-family, "Salesforce Sans", Arial, sans-serif);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--color-on-surface-1, #001E5B);
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .sf-nav__links a:hover { background: var(--color-surface-container-1, #F3F3F3); }
+
+    .sf-nav__utilities {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+    }
+    .sf-nav__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px;
+      border-radius: 100px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--color-on-surface-1, #001E5B);
+    }
+    .sf-nav__icon .icon { width: 18px; height: 18px; }
+    .sf-nav__icon:hover { background: var(--color-surface-container-1, #F3F3F3); }
+    .sf-nav__login {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 100px;
+    }
+    .sf-nav__login:hover { background: var(--color-surface-container-1, #F3F3F3); }
+    .sf-nav__login-label {
+      font-family: var(--font-style-body-copy-2-bold-family, "Salesforce Sans", Arial, sans-serif);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      color: var(--color-on-surface-1, #001E5B);
+    }
+    .sf-nav__cta { margin-left: 8px; }
+
+    @media (max-width: 1023px) {
+      .sf-nav__inner { height: 56px; padding-inline: 16px; }
+      .sf-nav__logo-full { display: none; }
+      .sf-nav__logo-bug  { display: block; }
+      .sf-nav__hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+        order: -1;
+      }
+      .sf-nav__hamburger span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        background: var(--color-on-surface-1, #001E5B);
+        border-radius: 1px;
+      }
+      .sf-nav__links { display: none; }
+      .sf-nav__links.is-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 56px;
+        left: 0;
+        right: 0;
+        background: var(--color-surface-1, #FFFFFF);
+        border-bottom: 1px solid var(--color-border-1, #F3F3F3);
+        padding: 16px;
+        gap: 4px;
+        z-index: 49;
+      }
+      .sf-nav .sf-nav__cta {
+        padding-inline: var(--space-interactive-sm, 12px);
+        padding-block:  var(--space-interactive-2xs, 4px);
+        font-size: 14px;
+      }
+      .sf-nav__icon--desktop-only { display: none; }
+      .sf-nav__login-label { display: none; }
+    }
+    @media (max-width: 767px) {
+      .sf-nav__icon[aria-label="Call us"] { display: none; }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       HERO BLADE — 2-column (image RIGHT, Standard, Day default)
+    ═══════════════════════════════════════════════════════════ */
+
+    /* Outer blade — full-bleed gradient */
+    .hero-blade {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      overflow: hidden;
+      /* Mobile base */
+      padding-inline: var(--space-grid-mobile-margin, 24px);
+      padding-block:  48px;
+      /* role: backgrounds[id=day-gradient-morning] */
+      background: linear-gradient(180deg, #90D0FE 0%, #EAF5FE 100%);
+    }
+    [data-theme="night"] .hero-blade {
+      background: linear-gradient(180deg, #001E5B 0%, #022AC0 35.2%, #066AFE 75%, #00B3FF 100%);
+    }
+
+    /* Inner content cap — 1280px at Desktop+, fluid below */
+    .hero-blade__cap {
+      width: 100%;
+      margin-inline: auto;
+    }
+
+    /* 12-col grid — base is flex-column stack at Mobile/TP */
+    .hero-blade__grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-content-2xl, 48px);
+    }
+    .hero-blade__content,
+    .hero-blade__asset {
+      width: 100%;
+      min-width: 0;
+    }
+
+    /* Eyebrow — Body Copy 2 Bold aggregate, on-surface/1, no text-transform */
+    .hero-blade__eyebrow {
+      margin: 0 0 var(--space-content-sm, 12px) 0;
+      font-family:    var(--font-style-body-copy-2-bold-family, "Salesforce Sans", Arial, sans-serif);
+      font-weight:    var(--font-style-body-copy-2-bold-weight, 700);
+      font-size:      var(--font-style-body-copy-2-bold-size, 18px);
+      line-height:    var(--font-style-body-copy-2-bold-line-height, 1.5);
+      letter-spacing: var(--font-style-body-copy-2-bold-letter-spacing, 0.00125em);
+      color:          var(--color-on-surface-1, #001E5B);
+    }
+
+    /* Headline — Display 4 base (Mobile/TP), cascades up at TL+ */
+    .hero-blade__headline {
+      margin: 0;
+      font-family:    var(--font-style-display-4-family, "Avant Garde For Salesforce", "ITC Avant Garde", Arial, sans-serif);
+      font-weight:    var(--font-style-display-4-weight, 600);
+      font-size:      var(--font-style-display-4-size, 40px);
+      line-height:    var(--font-style-display-4-line-height, 1.125);
+      letter-spacing: var(--font-style-display-4-letter-spacing, -0.0025em);
+      color:          var(--color-on-surface-1, #001E5B);
+    }
+
+    /* Headline highlight — --color-link (solid, WCAG-readable) NOT --color-fill-accent */
+    .hero-blade__headline .highlight {
+      color: var(--color-link, #022AC0);
+    }
+
+    /* Body copy — Body Copy 1 (the canonical hero body role) */
+    .hero-blade__body {
+      margin-top: var(--space-content-lg, 24px);
+      font-family:    var(--font-style-body-copy-1-family, "Salesforce Sans", Arial, sans-serif);
+      font-weight:    var(--font-style-body-copy-1-weight, 400);
+      font-size:      var(--font-style-body-copy-1-size, 20px);
+      line-height:    var(--font-style-body-copy-1-line-height, 1.5);
+      letter-spacing: var(--font-style-body-copy-1-letter-spacing, 0.00125em);
+      color:          var(--color-on-surface-2, #181818);
+    }
+
+    /* CTA row — margin-top separates it from body, gap between buttons */
+    .hero-blade__ctas {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-4, 16px);
+      margin-top: var(--space-content-2xl, 48px);
+    }
+
+    /* Asset — the image panel */
+    .hero-blade__asset {
+      position: relative;
+    }
+
+    /* === ≥ Tablet Portrait (768px) === */
+    @media (min-width: 768px) {
+      .hero-blade {
+        padding-inline: var(--space-grid-tablet-portrait-margin, 32px);
+        padding-block:  48px;
+      }
+    }
+
+    /* === ≥ Tablet Landscape (1024px) — 12-col grid kicks in === */
+    @media (min-width: 1024px) {
+      .hero-blade {
+        padding-inline: var(--space-grid-tablet-landscape-margin, 48px);
+        padding-block:  64px;
+      }
+      .hero-blade__grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        column-gap: var(--space-grid-tablet-landscape-gutter, 32px);
+        align-items: center;
+        gap: 0;
+      }
+      .hero-blade__content { grid-column: 1 / span 6; grid-row: 1; }
+      .hero-blade__asset   { grid-column: 7 / span 6; grid-row: 1; }
+      .hero-blade__headline {
+        font-size:      var(--font-style-display-3-size, 48px);
+        letter-spacing: var(--font-style-display-3-letter-spacing, -0.0025em);
+      }
+      /* Body trims to 5 of 6 cols for optical alignment */
+      .hero-blade__body {
+        padding-right: calc((100% + var(--space-grid-tablet-landscape-gutter, 32px)) / 6);
+      }
+    }
+
+    /* === ≥ Desktop (1440px) — content cap activates, headline bumps === */
+    @media (min-width: 1440px) {
+      .hero-blade {
+        padding-inline: var(--space-grid-desktop-margin, 48px);
+        padding-block:  64px;
+      }
+      .hero-blade__cap {
+        max-width: var(--space-grid-desktop-max-content-width, 1280px);
+      }
+      .hero-blade__grid {
+        column-gap: var(--space-grid-desktop-gutter, 40px);
+      }
+      .hero-blade__headline {
+        font-size:      var(--font-style-display-2-size, 56px);
+        letter-spacing: var(--font-style-display-2-letter-spacing, -0.003em);
+      }
+      .hero-blade__body {
+        padding-right: calc((100% + var(--space-grid-desktop-gutter, 40px)) / 6);
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       FOOTER: Link Block
+    ═══════════════════════════════════════════════════════════ */
+    .sf-footer__links {
+      display: flex;
+      gap: 24px;
+      padding: 64px;
+      background: var(--color-surface-1, #FFFFFF);
+    }
+    .sf-footer__brand {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      width: 280px;
+      flex-shrink: 0;
+    }
+    .sf-footer__logo { display: block; }
+    .sf-footer__social { display: flex; flex-wrap: wrap; gap: 14px; }
+    .sf-footer__social a { display: block; line-height: 0; }
+    .sf-footer__phone,
+    .sf-footer__contact-link {
+      font-family: var(--font-style-body-copy-3-bold-family, "Salesforce Sans", Arial, sans-serif);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      color: #444;
+    }
+    .sf-footer__contact-link { text-decoration: underline; }
+
+    .sf-footer__columns { display: flex; flex: 1; gap: 30px; }
+    .sf-footer__column  { flex: 1; }
+    .sf-footer__column h3 {
+      font-family: var(--font-style-body-copy-3-bold-family, "Salesforce Sans", Arial, sans-serif);
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 20px;
+      color: #444;
+      margin: 0 0 36px;
+    }
+    .sf-footer__column ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .sf-footer__column a {
+      font-family: var(--font-style-body-copy-4-family, "Salesforce Sans", Arial, sans-serif);
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 18px;
+      letter-spacing: 0.03px;
+      color: #0B5CAB;
+      text-decoration: none;
+    }
+    .sf-footer__column a:hover { text-decoration: underline; }
+
+    /* Footer: Bottom Bar */
+    .sf-footer__bottom { background: #032D60; padding: 20px 64px; }
+    .sf-footer__bottom-inner {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .sf-footer__region {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      font-family: var(--font-style-body-copy-2-bold-family, "Salesforce Sans", Arial, sans-serif);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 24px;
+      padding: 0 24px 11px;
+    }
+    .sf-footer__legal {
+      flex: 1;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .sf-footer__legal-links { display: flex; flex-wrap: wrap; gap: 10px 20px; }
+    .sf-footer__legal-links a,
+    .sf-footer__copyright,
+    .sf-footer__copyright a {
+      font-family: var(--font-style-body-copy-4-family, "Salesforce Sans", Arial, sans-serif);
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 18px;
+      letter-spacing: 0.03px;
+      color: #fff;
+      text-decoration: underline;
+    }
+    .sf-footer__copyright { text-decoration: none; }
+
+    /* Responsive: footer */
+    @media (max-width: 1023px) {
+      .sf-footer__links  { padding: 40px; }
+      .sf-footer__bottom { padding: 20px 40px; }
+    }
+    @media (max-width: 767px) {
+      .sf-footer__links { display: none; }
+      .sf-footer__bottom { padding: 20px 24px; }
+      .sf-footer__bottom-inner { flex-direction: column; align-items: center; text-align: center; }
+      .sf-footer__region { padding-bottom: 0; }
+      .sf-footer__legal-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ GLOBAL HEADER ═══ -->
+<header class="sf-nav" data-theme="day" role="banner">
+  <div class="sf-nav__inner">
+    <a href="/" class="sf-nav__logo" aria-label="Salesforce home">
+      <img class="sf-nav__logo-full"
+           src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/salesforce-logo.svg"
+           alt="Salesforce" width="68" height="48" />
+      <img class="sf-nav__logo-bug"
+           src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/salesforce-logo-bug.svg"
+           alt="Salesforce" width="36" height="25" />
+    </a>
+
+    <button class="sf-nav__hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="sf-nav__links" aria-label="Main navigation">
+      <a href="#">Products</a>
+      <a href="#">Industries</a>
+      <a href="#">Customers</a>
+      <a href="#">Learning</a>
+      <a href="#">Support</a>
+      <a href="#">Company</a>
+      <a href="#">Pricing</a>
+    </nav>
+
+    <div class="sf-nav__utilities">
+      <button class="sf-nav__icon" aria-label="Call us">
+        <i class="icon icon--call"></i>
+      </button>
+      <button class="sf-nav__icon" aria-label="Search">
+        <i class="icon icon--search"></i>
+      </button>
+      <button class="sf-nav__icon sf-nav__icon--desktop-only" aria-label="Select region">
+        <i class="icon icon--world"></i>
+      </button>
+      <a href="#" class="sf-nav__icon sf-nav__login" aria-label="Login">
+        <i class="icon icon--user"></i>
+        <span class="sf-nav__login-label">Login</span>
+      </a>
+      <a href="#" class="sf-cta sf-cta--special sf-cta--medium sf-nav__cta">Try for free</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══ HERO BLADE — .hero-blade--2col (image RIGHT, Day Gradient Morning) ═══ -->
+<section class="hero-blade hero-blade--2col">
+  <div class="hero-blade__cap">
+    <div class="hero-blade__grid">
+
+      <!-- LEFT: content panel (cols 1–6 at TL+) -->
+      <div class="hero-blade__content">
+        <p class="hero-blade__eyebrow">Salesforce Einstein</p>
+        <h1 class="hero-blade__headline">
+          Grow faster with the world's
+          <span class="highlight">#1 AI&nbsp;CRM</span>
+        </h1>
+        <p class="hero-blade__body">
+          Connect every customer touchpoint. Boost team productivity with trusted AI.
+          Build lasting relationships on the most complete platform for your business.
+        </p>
+        <div class="hero-blade__ctas">
+          <a class="sf-cta sf-cta--hero sf-cta--primary"   href="#">Get started free</a>
+          <a class="sf-cta sf-cta--hero sf-cta--secondary" href="#">Watch the demo</a>
+        </div>
+      </div>
+
+      <!-- RIGHT: asset panel (cols 7–12 at TL+) -->
+      <div class="hero-blade__asset">
+        <div class="sf-ph-slot"
+             style="aspect-ratio: 16 / 9;
+                    border-radius: var(--radius-hero-card, 16px);
+                    overflow: hidden;">
+          <img class="sf-ph-fill"
+               src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/placeholders/16-9/sample-1.png"
+               alt="Salesforce platform dashboard"
+               style="object-fit: cover; width: 100%; height: 100%;" />
+        </div>
+      </div>
+
+    </div><!-- /.hero-blade__grid -->
+  </div><!-- /.hero-blade__cap -->
+</section>
+
+<!-- ═══ CARD SECTION ═══ -->
+<style>
+  /* ── Section wrapper ── */
+  .card-section {
+    width: 100%;
+    background: var(--color-surface-1, #FFFFFF);
+    padding-block: 64px;
+  }
+  .card-section__cap {
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding-inline: 40px;
+  }
+  /* Section heading block */
+  .card-section__heading {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .card-section__eyebrow {
+    display: inline-block;
+    margin-bottom: 12px;
+    font-family: var(--font-style-body-copy-4-bold-family, "Salesforce Sans", Arial, sans-serif);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-on-surface-3, #444444);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .card-section__title {
+    margin: 0 0 12px;
+    font-family: var(--font-style-display-5-family, "Avant Garde For Salesforce", "ITC Avant Garde", Arial, sans-serif);
+    font-weight: 600;
+    font-size: clamp(24px, 3vw, 32px);
+    line-height: 1.25;
+    letter-spacing: -0.0015em;
+    color: var(--color-on-surface-1, #001E5B);
+  }
+  .card-section__sub {
+    margin: 0 auto;
+    max-width: 600px;
+    font-family: var(--font-style-body-copy-2-family, "Salesforce Sans", Arial, sans-serif);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--color-on-surface-2, #181818);
+  }
+
+  /* ── Card grid — 3-up (canonical Resource Card default) ── */
+  /* 3-col grid: desktop → tablet (2) → mobile (1) */
+  .sf-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: stretch;
+    gap: 32px;
+    width: 100%;
+  }
+  .sf-card-grid > * { min-width: 0; }
+  .sf-card-grid :where(p, h1, h2, h3, h4, h5, h6, span, a, li, blockquote) {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+  /* Tablet: 2 columns */
+  @media (max-width: 1023px) {
+    .sf-card-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .card-section__cap { padding-inline: 24px; }
+  }
+  /* Mobile: 1 column */
+  @media (max-width: 599px) {
+    .sf-card-grid { grid-template-columns: 1fr; gap: 20px; }
+    .card-section__cap { padding-inline: 16px; }
+    .card-section { padding-block: 48px; }
+  }
+
+  /* ── Card chrome — canonical Figma Elevation/Level 2 ── */
+  .sf-card,
+  .sf-card *,
+  .sf-card *::before,
+  .sf-card *::after { box-sizing: border-box; }
+
+  .sf-card:not([data-theme]), .sf-card[data-theme="day"] {
+    --color-surface-1: #FFFFFF;
+    --color-on-surface-1: #001E5B;
+    --color-on-surface-2: #181818;
+    --color-on-surface-3: #444444;
+    --color-link: #022AC0;
+    --color-border-focus: #066AFE;
+    --color-fill-neutral-hover: #EAF5FE;
+    --color-neutral-95: #f3f3f3;
+  }
+  .sf-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: hidden;
+    text-align: left;
+    background: var(--color-surface-1, #FFFFFF);
+    border: 1px solid rgba(24, 24, 24, 0.04);
+    box-shadow:
+      0 2px 8px -2px rgba(24, 24, 24, 0.08),
+      0 8px 12px -2px rgba(24, 24, 24, 0.16);
+    border-radius: 12px;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    hyphens: auto;
+    container-type: inline-size;
+    container-name: sf-card;
+    transition: box-shadow 150ms ease-out, transform 150ms ease-out;
+  }
+  .sf-card:hover {
+    box-shadow:
+      0 4px 12px -2px rgba(24, 24, 24, 0.10),
+      0 12px 20px -4px rgba(24, 24, 24, 0.20);
+    transform: translateY(-2px);
+  }
+  .sf-card :where(p, h1, h2, h3, h4, h5, h6, span, a, li, blockquote) {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  /* Image area */
+  .sf-card__image {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 271 / 180;
+    background: var(--color-neutral-80, #c9c9c9);
+    border-radius: 8px 8px 0 0;
+  }
+  .sf-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Copy block */
+  .sf-card__copy {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    min-width: 0;
+    padding: 24px;
+  }
+
+  /* Eyebrow badge */
+  .sf-card__eyebrow {
+    align-self: flex-start;
+    margin: 0 0 16px;
+    padding: 6px 12px;
+    background: #EAF5FE;
+    color: #032D60;
+    border-radius: 9999px;
+    font-family: var(--font-style-body-copy-4-bold-family, "Salesforce Sans", Arial, sans-serif);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* Headline — cascades by card-cell width */
+  .sf-card__headline {
+    margin: 0 0 12px;
+    font-family: var(--font-style-display-7-family, "Avant Garde For Salesforce", "ITC Avant Garde", Arial, sans-serif);
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.5;
+    letter-spacing: -0.0015em;
+    color: var(--color-on-surface-1, #001E5B);
+  }
+  @container sf-card (min-width: 360px) {
+    .sf-card__headline { font-size: 24px; line-height: 1.25; }
+  }
+  @container sf-card (min-width: 480px) {
+    .sf-card__headline { font-size: 32px; line-height: 1.25; }
+  }
+
+  /* Body copy */
+  .sf-card__body {
+    margin: 0 0 24px;
+    font-family: var(--font-style-body-copy-2-family, "Salesforce Sans", Arial, sans-serif);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-on-surface-2, #181818);
+  }
+
+  /* CTA slot — pins link to bottom */
+  .sf-card__cta-slot {
+    margin-top: auto;
+    align-self: flex-start;
+  }
+
+  /* Link-type CTA — canonical for 3-up cards */
+  .sf-cta-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--font-style-body-copy-2-family, "Salesforce Sans", Arial, sans-serif);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-link, #022AC0);
+    text-decoration: none;
+  }
+  .sf-cta-link:hover { color: #066AFE; text-decoration: underline; }
+  .sf-cta-link__chevron {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+</style>
+
+<section class="card-section" data-theme="day">
+  <div class="card-section__cap">
+
+    <div class="card-section__heading">
+      <span class="card-section__eyebrow">Why Salesforce</span>
+      <h2 class="card-section__title">The platform built for every moment</h2>
+      <p class="card-section__sub">One integrated platform connects your data, teams, and customers — powered by AI that works for every industry.</p>
+    </div>
+
+    <div class="sf-card-grid sf-card-grid--3up">
+
+      <!-- Card 1 -->
+      <article class="sf-card">
+        <div class="sf-card__image">
+          <img src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/placeholders/16-9/sample-1.png" alt="" aria-hidden="true" />
+        </div>
+        <div class="sf-card__copy">
+          <span class="sf-card__eyebrow">Data Cloud</span>
+          <h3 class="sf-card__headline">Unify your data across every touchpoint</h3>
+          <p class="sf-card__body">Bring together structured and unstructured data from any source — CRM, marketing, service, commerce — into a single real-time profile.</p>
+          <span class="sf-card__cta-slot">
+            <a class="sf-cta-link" href="#">
+              <span>Learn more</span>
+              <svg class="sf-cta-link__chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </span>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="sf-card">
+        <div class="sf-card__image">
+          <img src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/placeholders/16-9/sample-2.png" alt="" aria-hidden="true" />
+        </div>
+        <div class="sf-card__copy">
+          <span class="sf-card__eyebrow">Einstein AI</span>
+          <h3 class="sf-card__headline">Trusted AI that acts, not just predicts</h3>
+          <p class="sf-card__body">Einstein agents automate tasks, surface insights, and take action across your workflows — grounded in your data, governed by your rules.</p>
+          <span class="sf-card__cta-slot">
+            <a class="sf-cta-link" href="#">
+              <span>Learn more</span>
+              <svg class="sf-cta-link__chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </span>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="sf-card">
+        <div class="sf-card__image">
+          <img src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/placeholders/16-9/sample-3.png" alt="" aria-hidden="true" />
+        </div>
+        <div class="sf-card__copy">
+          <span class="sf-card__eyebrow">Platform</span>
+          <h3 class="sf-card__headline">Built to scale with your business</h3>
+          <p class="sf-card__body">From a single team to a global enterprise, Salesforce grows with you — with 99.9% uptime, enterprise security, and hundreds of pre-built integrations.</p>
+          <span class="sf-card__cta-slot">
+            <a class="sf-cta-link" href="#">
+              <span>Learn more</span>
+              <svg class="sf-cta-link__chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </span>
+        </div>
+      </article>
+
+    </div><!-- /.sf-card-grid -->
+
+  </div><!-- /.card-section__cap -->
+</section>
+
+</main>
+
+<!-- ═══ LEGAL FOOTER ═══ -->
+<footer class="sf-footer" data-theme="day" role="contentinfo">
+  <div class="sf-footer__links">
+    <div class="sf-footer__brand">
+      <img class="sf-footer__logo"
+           src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/salesforce-logo.svg"
+           alt="Salesforce" width="92" height="65" />
+      <div class="sf-footer__social">
+        <a href="#" aria-label="Facebook"><img src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/footer-social/facebook.svg" alt="Facebook" width="32" height="32" /></a>
+        <a href="#" aria-label="X (Twitter)"><img src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/footer-social/twitter.svg" alt="X (Twitter)" width="32" height="32" /></a>
+        <a href="#" aria-label="LinkedIn"><img src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/footer-social/linkedin.svg" alt="LinkedIn" width="32" height="32" /></a>
+        <a href="#" aria-label="Instagram"><img src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/footer-social/instagram.svg" alt="Instagram" width="32" height="32" /></a>
+        <a href="#" aria-label="YouTube"><img src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/footer-social/youtube.svg" alt="YouTube" width="32" height="32" /></a>
+        <a href="#" aria-label="TikTok"><img src="https://sfdc-ui-documentation-667d4c5e8394.herokuapp.com/dms-design-tokens/images/footer-social/tik-tok.svg" alt="TikTok" width="32" height="32" /></a>
+      </div>
+      <p class="sf-footer__phone">Call us at 1-800-664-9073</p>
+      <a href="#" class="sf-footer__contact-link">See all ways to contact us</a>
+    </div>
+    <div class="sf-footer__columns">
+      <div class="sf-footer__column">
+        <h3>New to Salesforce?</h3>
+        <ul>
+          <li><a href="#">What is CRM?</a></li>
+          <li><a href="#">Digital Marketing</a></li>
+          <li><a href="#">Customer Service Software</a></li>
+          <li><a href="#">Email Marketing</a></li>
+          <li><a href="#">Ecommerce</a></li>
+          <li><a href="#">Artificial Intelligence</a></li>
+          <li><a href="#">Revenue Management Solutions</a></li>
+          <li><a href="#">AI Agents</a></li>
+          <li><a href="#">SaaS</a></li>
+        </ul>
+      </div>
+      <div class="sf-footer__column">
+        <h3>About Salesforce</h3>
+        <ul>
+          <li><a href="#">What is Salesforce?</a></li>
+          <li><a href="#">Newsroom</a></li>
+          <li><a href="#">Customer Success</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Trust</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Investors</a></li>
+          <li><a href="#">Give us your Feedback</a></li>
+        </ul>
+      </div>
+      <div class="sf-footer__column">
+        <h3>Popular Links</h3>
+        <ul>
+          <li><a href="#">Salesforce Login</a></li>
+          <li><a href="#">New Release Features</a></li>
+          <li><a href="#">Find or Become a Partner</a></li>
+          <li><a href="#">Dreamforce</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">CRM Software</a></li>
+          <li><a href="#">All Cloud Products</a></li>
+          <li><a href="#">Product Pricing</a></li>
+          <li><a href="#">Newsletter Sign-up</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="sf-footer__bottom">
+    <div class="sf-footer__bottom-inner">
+      <button class="sf-footer__region">
+        <i class="icon icon--world" style="width:16px;height:16px;"></i>
+        Worldwide <span aria-hidden="true">&#9662;</span>
+      </button>
+      <div class="sf-footer__legal">
+        <div class="sf-footer__legal-links">
+          <a href="#">Legal</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy Information</a>
+          <a href="#">Responsible Disclosure</a>
+          <a href="#">Trust</a>
+          <a href="#">Contact</a>
+          <a href="#">Cookie Preferences</a>
+          <a href="#">Your Privacy Choices</a>
+        </div>
+        <p class="sf-footer__copyright">
+          &copy; Copyright 2024 Salesforce, Inc. <a href="#">All rights reserved</a>.
+          Various trademarks held by their respective owners. Salesforce, Inc.
+          Salesforce Tower, 415 Mission Street, 3rd Floor, San Francisco, CA 94105,
+          United States
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelector('.sf-nav__hamburger')?.addEventListener('click', function () {
+    const nav = document.querySelector('.sf-nav__links');
+    const open = nav.classList.toggle('is-open');
+    this.setAttribute('aria-expanded', String(open));
+  });
+</script>
+
+<!-- ═══ DEMO CONTROLS ═══ -->
+<style>
+  /* Matches .flow-review from identity-forms-c2a1e7bb5a43.herokuapp.com */
+  .dc {
+    position: fixed;
+    z-index: 9999;
+    inset-block-end: 16px;
+    inset-inline-end: 16px;
+    width: fit-content;
+    max-width: calc(100vw - 32px);
+    font-family: "Salesforce Sans", Arial, sans-serif;
+    font-size: 14px;
+  }
+
+  /* ── Closed pill — dark navy, green dot, chevron ── */
+  .dc__pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px 10px 14px;
+    background: #032D60;
+    border: none;
+    border-radius: 9999px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(3, 45, 96, 0.35), 0 1px 4px rgba(3, 45, 96, 0.20);
+    transition: background 140ms, box-shadow 140ms, transform 140ms;
+  }
+  .dc__pill:hover {
+    background: #022AC0;
+    box-shadow: 0 6px 20px rgba(3, 45, 96, 0.45), 0 2px 6px rgba(3, 45, 96, 0.25);
+    transform: translateY(-1px);
+  }
+  .dc__pill:active { transform: scale(0.98); }
+  .dc--open .dc__pill { display: none; }
+
+  /* Green status dot */
+  .dc__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #34C759;
+    box-shadow: 0 0 0 2px rgba(52, 199, 89, 0.25), 0 0 8px rgba(52, 199, 89, 0.5);
+    flex-shrink: 0;
+    animation: dcPulse 3s ease-in-out infinite;
+  }
+  @keyframes dcPulse {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(52,199,89,0.20), 0 0 6px rgba(52,199,89,0.45); }
+    50%       { box-shadow: 0 0 0 3px rgba(52,199,89,0.10), 0 0 14px rgba(52,199,89,0.70); }
+  }
+
+  /* Chevron */
+  .dc__chevron {
+    width: 14px; height: 14px;
+    flex-shrink: 0;
+    opacity: 0.75;
+    transition: transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .dc--open .dc__chevron { transform: rotate(180deg); }
+
+  /* ── Expanded panel — white frosted card ── */
+  .dc__panel {
+    display: none;
+    flex-direction: column;
+    width: min(408px, calc(100vw - 32px));
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.60);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transform-origin: bottom right;
+  }
+  .dc--open .dc__panel {
+    display: flex;
+    animation: dcPanelIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+  @keyframes dcPanelIn {
+    from { opacity: 0; transform: scale(0.92) translateY(8px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* Panel header row */
+  .dc__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 0 4px 0 14px;
+    border-bottom: 1px solid #E5E5E5;
+    cursor: pointer;
+    user-select: none;
+  }
+  .dc__header:hover { background: rgba(0, 0, 0, 0.02); }
+  .dc__header-title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 700;
+    color: #001E5B;
+    white-space: nowrap;
+  }
+
+  /* Close button */
+  .dc__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    padding: 0; border: 0;
+    border-radius: 9999px;
+    background: transparent;
+    color: #444444;
+    cursor: pointer;
+    transition: background 140ms;
+  }
+  .dc__close:hover { background: rgba(0, 0, 0, 0.06); }
+  .dc__close svg { width: 14px; height: 14px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; }
+
+  /* ── Panel body ── */
+  .dc__body {
+    max-height: min(640px, calc(100dvh - 80px));
+    overflow-y: auto;
+    padding: 0 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .dc__body::-webkit-scrollbar { width: 4px; }
+  .dc__body::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 2px; }
+
+  /* ── Section ── */
+  .dc__section { margin-top: 12px; }
+  .dc__section-title {
+    color: #444444;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+
+  /* ── Option cards (radio) ── */
+  .dc__options { display: flex; flex-direction: column; gap: 4px; }
+  .dc__option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.60);
+    color: #444444;
+    cursor: pointer;
+    text-align: start;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    transition: border-color 140ms, background 140ms;
+  }
+  .dc__option:hover {
+    border-color: #E5E5E5;
+    background: #EAF5FE;
+  }
+  .dc__option[aria-pressed="true"] {
+    border-color: #022AC0;
+    background: #EAF5FE;
+    color: #001E5B;
+    font-weight: 700;
+  }
+  .dc__option input[type="radio"] { display: none; }
+
+  /* ── Segmented control ── */
+  .dc__segmented {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
+    padding: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.40);
+    margin-top: 4px;
+  }
+  .dc__segmented--three { --cols: 3; }
+  .dc__segmented label { min-width: 0; }
+  .dc__segmented input { position: absolute; opacity: 0; pointer-events: none; }
+  .dc__segmented span {
+    display: grid;
+    place-items: center;
+    min-height: 40px;
+    padding-inline: 8px;
+    border-radius: 3px;
+    color: #444444;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .dc__segmented input:checked + span {
+    background: rgba(255, 255, 255, 0.85);
+    color: #001E5B;
+    box-shadow: 0 1px 3px rgba(24, 24, 24, 0.14);
+    font-weight: 700;
+  }
+
+  /* ── Toggle rows ── */
+  .dc__toggles { display: flex; flex-direction: column; gap: 0; margin-top: 4px; }
+  .dc__toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 44px;
+    border-bottom: 1px solid #E5E5E5;
+  }
+  .dc__toggles .dc__toggle-row:last-child { border-bottom: 0; }
+  .dc__toggle-label { font-size: 14px; color: #001E5B; }
+  .dc__toggle { position: relative; width: 44px; height: 26px; flex-shrink: 0; }
+  .dc__toggle input { display: none; }
+  .dc__toggle-track {
+    position: absolute; inset: 0; border-radius: 13px;
+    background: #939393;
+    cursor: pointer;
+    transition: background 200ms;
+  }
+  .dc__toggle-track::after {
+    content: "";
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.30);
+    transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .dc__toggle input:checked ~ .dc__toggle-track { background: #066AFE; }
+  .dc__toggle input:checked ~ .dc__toggle-track::after { transform: translateX(18px); }
+
+  /* ── Divider ── */
+  .dc__divider { height: 1px; background: #E5E5E5; margin: 12px 0; }
+
+  /* ── Primary CTA ── */
+  .dc__btn--primary {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 16px;
+    padding-inline: 16px;
+    border: 0;
+    border-radius: 4px;
+    background: #066AFE;
+    color: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 140ms;
+  }
+  .dc__btn--primary:hover { background: #022AC0; }
+
+  /* ── Ghost / secondary buttons ── */
+  .dc__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+  .dc__btn--ghost {
+    min-height: 44px;
+    border: 1px solid rgba(255,255,255,0.75);
+    border-radius: 4px;
+    background: rgba(255,255,255,0.60);
+    color: #022AC0;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 140ms, border-color 140ms;
+  }
+  .dc__btn--ghost:hover { background: #EAF5FE; border-color: #E5E5E5; }
+
+  /* ── Reset link ── */
+  .dc__reset { margin-top: 8px; text-align: center; font-size: 12px; color: #444444; }
+  .dc__reset a { color: #022AC0; font-weight: 700; text-decoration: none; }
+  .dc__reset a:hover { text-decoration: underline; }
+</style>
+
+<div class="dc" id="demoControls">
+  <!-- Summary row — acts as the pill when closed -->
+  <!-- Closed pill -->
+  <button class="dc__pill" id="dcToggle" aria-expanded="false" aria-controls="dcPanel">
+    <span class="dc__dot"></span>
+    Demo controls
+    <svg class="dc__chevron" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <polyline points="2,4 7,10 12,4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- Expanded panel -->
+  <div class="dc__panel" id="dcPanel" role="region" aria-label="Demo controls" hidden>
+
+    <!-- Panel header — click to close -->
+    <div class="dc__header" id="dcHeader">
+      <span class="dc__dot"></span>
+      <span class="dc__header-title">Demo controls</span>
+      <button class="dc__close" id="dcClose" aria-label="Close demo controls">
+        <svg viewBox="0 0 16 16" aria-hidden="true">
+          <line x1="3" y1="3" x2="13" y2="13"/>
+          <line x1="13" y1="3" x2="3" y2="13"/>
+        </svg>
+      </button>
+    </div>
+
+  <!-- Panel body -->
+  <div class="dc__body">
+
+    <!-- Theme — segmented 2-up -->
+    <div class="dc__section">
+      <div class="dc__section-title">Color theme</div>
+      <div class="dc__segmented" id="themeOptions">
+        <label>
+          <input type="radio" name="dc-theme" value="day" checked />
+          <span>Day</span>
+        </label>
+        <label>
+          <input type="radio" name="dc-theme" value="night" />
+          <span>Night</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="dc__divider"></div>
+
+    <!-- Layout — option cards -->
+    <div class="dc__section-title">Hero layout</div>
+    <div class="dc__options" id="layoutOptions">
+      <button class="dc__option" aria-pressed="true" data-value="2col">
+        <input type="radio" name="dc-layout" value="2col" checked />
+        2-column — image right
+      </button>
+      <button class="dc__option" aria-pressed="false" data-value="mirror">
+        <input type="radio" name="dc-layout" value="mirror" />
+        2-column — image left
+      </button>
+      <button class="dc__option" aria-pressed="false" data-value="1col">
+        <input type="radio" name="dc-layout" value="1col" />
+        Centered (1-column)
+      </button>
+    </div>
+
+    <div class="dc__divider"></div>
+
+    <!-- Headline size — segmented 2-up -->
+    <div class="dc__section-title">Headline size</div>
+    <div class="dc__segmented" id="headlineOptions">
+      <label>
+        <input type="radio" name="dc-headline" value="standard" checked />
+        <span>Standard</span>
+      </label>
+      <label>
+        <input type="radio" name="dc-headline" value="large" />
+        <span>Large</span>
+      </label>
+    </div>
+
+    <div class="dc__divider"></div>
+
+    <!-- Toggles -->
+    <div class="dc__section-title">Show / hide</div>
+    <div class="dc__toggles">
+      <div class="dc__toggle-row">
+        <span class="dc__toggle-label">Eyebrow</span>
+        <label class="dc__toggle">
+          <input type="checkbox" id="toggleEyebrow" checked />
+          <span class="dc__toggle-track"></span>
+        </label>
+      </div>
+      <div class="dc__toggle-row">
+        <span class="dc__toggle-label">Asset image</span>
+        <label class="dc__toggle">
+          <input type="checkbox" id="toggleAsset" checked />
+          <span class="dc__toggle-track"></span>
+        </label>
+      </div>
+      <div class="dc__toggle-row">
+        <span class="dc__toggle-label">Headline highlight</span>
+        <label class="dc__toggle">
+          <input type="checkbox" id="toggleHighlight" checked />
+          <span class="dc__toggle-track"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="dc__actions">
+      <button class="dc__btn--ghost" id="dcReset">Reset</button>
+      <button class="dc__btn--ghost" id="dcCopy">Copy URL</button>
+    </div>
+    <div class="dc__reset"><a href="#" id="dcFullReset">Restore all defaults</a></div>
+
+  </div><!-- /.dc__body -->
+  </div><!-- /.dc__panel -->
+</div><!-- /.dc -->
+
+<script>
+(function () {
+  const root    = document.documentElement;
+  const hero    = document.querySelector('.hero-blade');
+  const grid    = document.querySelector('.hero-blade__grid');
+  const eyebrow = document.querySelector('.hero-blade__eyebrow');
+  const asset   = document.querySelector('.hero-blade__asset');
+  const hl      = document.querySelector('.hero-blade__headline .highlight');
+
+  const dc      = document.getElementById('demoControls');
+  const toggle   = document.getElementById('dcToggle');
+  const closeBtn = document.getElementById('dcClose');
+  const header   = document.getElementById('dcHeader');
+  const panel    = document.getElementById('dcPanel');
+
+  // ── Open / close — two states only: pill and expanded panel ──
+  function openPanel() {
+    panel.hidden = false;
+    dc.classList.add('dc--open');
+    toggle.setAttribute('aria-expanded', 'true');
+  }
+  function closePanel() {
+    panel.hidden = true;
+    dc.classList.remove('dc--open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  // Pill → open
+  toggle.addEventListener('click', openPanel);
+
+  // Header row click → close back to pill
+  header.addEventListener('click', e => {
+    if (e.target.closest('#dcClose')) return;
+    closePanel();
+  });
+
+  // × button → close
+  closeBtn.addEventListener('click', e => { e.stopPropagation(); closePanel(); });
+
+  // ── Helper: mark active option card in a group ────────────
+  function setActive(groupEl, value) {
+    groupEl.querySelectorAll('.dc__option').forEach(opt => {
+      const active = opt.dataset.value === value;
+      opt.setAttribute('aria-pressed', String(active));
+    });
+  }
+
+  // ── Theme ─────────────────────────────────────────────────
+  document.querySelectorAll('[name="dc-theme"]').forEach(r => {
+    r.addEventListener('change', () => {
+      const v = r.value;
+      root.setAttribute('data-theme', v);
+      document.querySelector('.sf-nav').setAttribute('data-theme', 'day');
+      document.querySelector('.sf-footer').setAttribute('data-theme', 'day');
+      if (v === 'night') {
+        hero.style.background = 'linear-gradient(180deg,#001E5B 0%,#022AC0 35.2%,#066AFE 75%,#00B3FF 100%)';
+      } else {
+        hero.style.background = 'linear-gradient(180deg,#90D0FE 0%,#EAF5FE 100%)';
+      }
+    });
+  });
+
+  // ── Layout ────────────────────────────────────────────────
+  document.getElementById('layoutOptions').addEventListener('click', e => {
+    const btn = e.target.closest('.dc__option');
+    if (!btn) return;
+    const v = btn.dataset.value;
+    btn.querySelector('input').checked = true;
+    setActive(document.getElementById('layoutOptions'), v);
+    if (v === 'mirror') {
+      grid.style.direction = 'rtl';
+      grid.querySelectorAll('.hero-blade__content,.hero-blade__asset').forEach(el => el.style.direction = 'ltr');
+    } else {
+      grid.style.direction = '';
+      grid.querySelectorAll('.hero-blade__content,.hero-blade__asset').forEach(el => el.style.direction = '');
+    }
+    if (v === '1col') {
+      grid.style.display = 'flex';
+      grid.style.flexDirection = 'column';
+      grid.style.alignItems = 'center';
+      grid.style.textAlign = 'center';
+      if (asset) asset.style.display = 'none';
+    } else {
+      grid.style.display = '';
+      grid.style.flexDirection = '';
+      grid.style.alignItems = '';
+      grid.style.textAlign = '';
+      if (asset) asset.style.display = '';
+    }
+  });
+
+  // ── Headline size ─────────────────────────────────────────
+  document.querySelectorAll('[name="dc-headline"]').forEach(r => {
+    r.addEventListener('change', () => {
+      const headline = document.querySelector('.hero-blade__headline');
+      if (r.value === 'large') {
+        headline.style.fontSize = '80px';
+        headline.style.letterSpacing = '-0.0036em';
+      } else {
+        headline.style.fontSize = '';
+        headline.style.letterSpacing = '';
+      }
+    });
+  });
+
+  // ── Eyebrow toggle ────────────────────────────────────────
+  document.getElementById('toggleEyebrow').addEventListener('change', function () {
+    if (eyebrow) eyebrow.style.display = this.checked ? '' : 'none';
+  });
+
+  // ── Asset toggle ──────────────────────────────────────────
+  document.getElementById('toggleAsset').addEventListener('change', function () {
+    if (asset) asset.style.display = this.checked ? '' : 'none';
+  });
+
+  // ── Highlight toggle ──────────────────────────────────────
+  document.getElementById('toggleHighlight').addEventListener('change', function () {
+    if (hl) hl.style.color = this.checked ? 'var(--color-link, #022AC0)' : 'inherit';
+  });
+
+  // ── Reset ─────────────────────────────────────────────────
+  function resetAll() {
+    root.setAttribute('data-theme', 'day');
+    document.querySelector('.sf-nav').setAttribute('data-theme', 'day');
+    document.querySelector('.sf-footer').setAttribute('data-theme', 'day');
+    hero.style.background = '';
+    grid.style.cssText = '';
+    grid.querySelectorAll('.hero-blade__content,.hero-blade__asset').forEach(el => el.style.cssText = '');
+    document.querySelector('.hero-blade__headline').style.cssText = '';
+    if (eyebrow) eyebrow.style.display = '';
+    if (asset) asset.style.display = '';
+    if (hl) hl.style.color = '';
+
+    document.querySelector('[name="dc-theme"][value="day"]').checked = true;
+    document.querySelector('[name="dc-layout"][value="2col"]').checked = true;
+    document.querySelector('[name="dc-headline"][value="standard"]').checked = true;
+    document.getElementById('toggleEyebrow').checked = true;
+    document.getElementById('toggleAsset').checked = true;
+    document.getElementById('toggleHighlight').checked = true;
+
+    setActive(document.getElementById('layoutOptions'), '2col');
+  }
+
+  document.getElementById('dcReset').addEventListener('click', resetAll);
+  document.getElementById('dcFullReset').addEventListener('click', e => { e.preventDefault(); resetAll(); });
+
+  // ── Copy state ────────────────────────────────────────────
+  document.getElementById('dcCopy').addEventListener('click', function () {
+    const theme   = document.querySelector('[name="dc-theme"]:checked').value;
+    const layout  = document.querySelector('[name="dc-layout"]:checked').value;
+    const hs      = document.querySelector('[name="dc-headline"]:checked').value;
+    const url = `${location.href.split('?')[0]}?theme=${theme}&layout=${layout}&headline=${hs}`;
+    navigator.clipboard.writeText(url).then(() => {
+      const orig = this.textContent;
+      this.textContent = 'Copied!';
+      this.style.background = '#4BBF6B';
+      setTimeout(() => { this.textContent = orig; this.style.background = ''; }, 1800);
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
